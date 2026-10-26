@@ -9,3 +9,4 @@ media/*.render.mp4
 *.blend1
 *.log
 .DS_Store
+media/.*.hf-transaction-*
