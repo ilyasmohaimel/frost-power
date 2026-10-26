@@ -1,0 +1,3 @@
+# Preserve upstream license and vendored script formatting.
+media/composition/assets/fonts/* -whitespace
+media/composition/assets/gsap.min.js -whitespace

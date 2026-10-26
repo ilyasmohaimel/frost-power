@@ -1,0 +1,31 @@
+{
+  "composition": {
+    "lintErrors": 0,
+    "lintWarnings": 0,
+    "runtimeErrors": 0,
+    "layoutIssues": 0,
+    "layoutSamples": 9,
+    "motionErrors": 0,
+    "contrastPassed": 59,
+    "contrastTotal": 59
+  },
+  "film": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 60,
+    "frames": 1200,
+    "durationSeconds": 20,
+    "audio": "AAC stereo 48000 Hz",
+    "decodeCheck": "passed",
+    "sha256": "67c10ba8e3a16a0374eaf773022cff537a2085b6354dbdc0b98d2fc3fb3526a6"
+  },
+  "readmePreview": {
+    "width": 960,
+    "height": 540,
+    "frames": 360,
+    "durationMs": 19999,
+    "animated": true
+  },
+  "relativeDocumentationLinks": "passed",
+  "hardwareTestBoundary": "Film validation does not repeat the measured hardware workloads."
+}

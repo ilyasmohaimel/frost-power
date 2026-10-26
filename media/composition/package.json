@@ -1,0 +1,16 @@
+{
+  "name": "frost-power-film",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Measured power presets on the G513QY",
+  "scripts": {
+    "check": "hyperframes check",
+    "preview": "hyperframes preview",
+    "render": "hyperframes render --quality delivery --crf 12 --fps 60 --workers 1 --no-browser-gpu --output ../frost-power.render.mp4"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "hyperframes": "0.8.168"
+  },
+  "license": "GPL-2.0-only"
+}

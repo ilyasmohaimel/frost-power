@@ -1,0 +1,25 @@
+[Unit]
+Description=Frost CPU and RX efficiency settings for the ROG G513QY
+After=asusd.service
+StartLimitIntervalSec=120
+StartLimitBurst=2
+ConditionPathExists=/etc/frost-thermal-tuning.json
+
+[Service]
+Type=simple
+ExecStart=/usr/local/libexec/frost-thermal-tuning daemon
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=50
+RuntimeDirectory=frost-thermal-tuning
+RuntimeDirectoryMode=0755
+RuntimeDirectoryPreserve=restart
+UMask=0022
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectControlGroups=true
+ReadWritePaths=/run/frost-thermal-tuning
+
+[Install]
+WantedBy=multi-user.target

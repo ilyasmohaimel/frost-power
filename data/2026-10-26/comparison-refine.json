@@ -1,0 +1,76 @@
+[
+  {
+    "name": "balanced38",
+    "profile": "Balanced",
+    "capW": 38,
+    "boost": true,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 38.0
+    },
+    "single": {
+      "score": 1943.3,
+      "maxCpuC": 74.375,
+      "meanCpuC": 71.60833333333333,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 14802.16,
+      "maxCpuC": 76.5,
+      "meanCpuC": 73.20208333333333,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 8132.25,
+      "maxCpuC": 70.625,
+      "meanCpuC": 68.44444444444444,
+      "rxSuspendedEverySample": true,
+      "socketW": 37.98494464329311,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          38.0
+        ]
+      }
+    }
+  },
+  {
+    "name": "balanced40",
+    "profile": "Balanced",
+    "capW": 40,
+    "boost": true,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 40.0
+    },
+    "single": {
+      "score": 1955.47,
+      "maxCpuC": 72.375,
+      "meanCpuC": 70.50833333333334,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 14873.61,
+      "maxCpuC": 78.125,
+      "meanCpuC": 74.94791666666667,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 8116.39,
+      "maxCpuC": 73.0,
+      "meanCpuC": 70.91555555555556,
+      "rxSuspendedEverySample": true,
+      "socketW": 39.973246819632394,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          40.0
+        ]
+      }
+    }
+  }
+]

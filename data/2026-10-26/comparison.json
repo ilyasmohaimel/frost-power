@@ -1,0 +1,224 @@
+[
+  {
+    "name": "performance",
+    "profile": "Performance",
+    "capW": 90,
+    "boost": true,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 90.0
+    },
+    "single": {
+      "score": 1945.93,
+      "maxCpuC": 75.25,
+      "meanCpuC": 72.4625,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 16385.85,
+      "maxCpuC": 79.75,
+      "meanCpuC": 77.85833333333333,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 10124.07,
+      "maxCpuC": 90.375,
+      "meanCpuC": 90.06,
+      "rxSuspendedEverySample": true,
+      "socketW": 74.03781171526228,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          90.0
+        ]
+      }
+    }
+  },
+  {
+    "name": "balanced30",
+    "profile": "Balanced",
+    "capW": 30,
+    "boost": true,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 30.0
+    },
+    "single": {
+      "score": 1935.88,
+      "maxCpuC": 79.25,
+      "meanCpuC": 77.24375,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 13474.24,
+      "maxCpuC": 79.25,
+      "meanCpuC": 73.9375,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 7305.78,
+      "maxCpuC": 70.0,
+      "meanCpuC": 66.17055555555555,
+      "rxSuspendedEverySample": true,
+      "socketW": 30.000188854762484,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          30.0
+        ]
+      }
+    }
+  },
+  {
+    "name": "balanced35",
+    "profile": "Balanced",
+    "capW": 35,
+    "boost": true,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 35.0
+    },
+    "single": {
+      "score": 1917.15,
+      "maxCpuC": 79.25,
+      "meanCpuC": 77.3875,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 13623.54,
+      "maxCpuC": 78.125,
+      "meanCpuC": 73.64583333333333,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 7875.49,
+      "maxCpuC": 70.75,
+      "meanCpuC": 68.26777777777778,
+      "rxSuspendedEverySample": true,
+      "socketW": 34.9860345023019,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          35.0
+        ]
+      }
+    }
+  },
+  {
+    "name": "eco20",
+    "profile": "Quiet",
+    "capW": 20,
+    "boost": false,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 20.0
+    },
+    "single": {
+      "score": 1369.76,
+      "maxCpuC": 60.75,
+      "meanCpuC": 59.952083333333334,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 11003.54,
+      "maxCpuC": 60.375,
+      "meanCpuC": 59.50416666666667,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 5371.81,
+      "maxCpuC": 58.625,
+      "meanCpuC": 57.76722222222222,
+      "rxSuspendedEverySample": true,
+      "socketW": 19.997497749328613,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          20.0
+        ]
+      }
+    }
+  },
+  {
+    "name": "eco18",
+    "profile": "Quiet",
+    "capW": 18,
+    "boost": false,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 18.0
+    },
+    "single": {
+      "score": 1369.53,
+      "maxCpuC": 60.875,
+      "meanCpuC": 59.97083333333333,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 9747.95,
+      "maxCpuC": 59.875,
+      "meanCpuC": 58.12916666666667,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 4287.57,
+      "maxCpuC": 56.875,
+      "meanCpuC": 55.632777777777775,
+      "rxSuspendedEverySample": true,
+      "socketW": 17.969187682015555,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          18.0
+        ]
+      }
+    }
+  },
+  {
+    "name": "eco15",
+    "profile": "Quiet",
+    "capW": 15,
+    "boost": false,
+    "readbacks": {
+      "THM LIMIT CORE": 90.0,
+      "PPT LIMIT APU": 15.0
+    },
+    "single": {
+      "score": 1369.07,
+      "maxCpuC": 59.0,
+      "meanCpuC": 57.264583333333334,
+      "rxSuspendedEverySample": true
+    },
+    "multi": {
+      "score": 7913.03,
+      "maxCpuC": 56.0,
+      "meanCpuC": 54.28541666666667,
+      "rxSuspendedEverySample": true
+    },
+    "matrix": {
+      "score": 3339.68,
+      "maxCpuC": 53.125,
+      "meanCpuC": 51.700892857142854,
+      "rxSuspendedEverySample": true,
+      "socketW": 14.975449289594378,
+      "limits": {
+        "limitC": [
+          90.0
+        ],
+        "apuLimitW": [
+          15.0
+        ]
+      }
+    }
+  }
+]

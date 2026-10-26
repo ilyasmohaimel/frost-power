@@ -1,0 +1,92 @@
+#!/usr/bin/python3 -I
+"""Apply the fixed RX runtime policy, including this user's manual GPU mode."""
+from pathlib import Path
+import importlib.util
+import json
+import os
+import stat
+import time
+import subprocess
+
+
+def owned_json(path, owner):
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd) as stream:
+        info = os.fstat(stream.fileno())
+        if info.st_uid != owner or not stat.S_ISREG(info.st_mode):
+            raise ValueError('Unexpected mode file owner or type')
+        return json.loads(stream.read(4096))
+
+
+def requested_mode(directory=Path('/run/user/1000/frost-gpu-live'), owner=1000):
+    try:
+        data = owned_json(directory / 'mode.json', owner)
+        session = (directory / 'login-session').read_text().strip()
+        if not session or not isinstance(data, dict) or data.get('session') != session:
+            return 'auto'
+        mode = data.get('mode')
+        return mode if mode in ('auto', 'igpu', 'rx', 'eco') else 'auto'
+    except (OSError, ValueError):
+        return 'auto'
+
+
+def policy(use_rx, mode):
+    if mode in ('eco', 'igpu'):
+        return 'auto'
+    if mode == 'rx':
+        return 'on'
+    return 'on' if use_rx else 'auto'
+
+
+def verified_hyprland_mode(data, process_env, session):
+    if (not isinstance(data, dict) or data.get('selected') not in ('igpu', 'rx')
+            or not data.get('token') or not data.get('session')):
+        return None
+    if (session.get('User') != '1000' or session.get('Active') != 'yes'
+            or session.get('Type') != 'wayland' or session.get('Desktop') != 'Hyprland'):
+        return None
+    expected = {'XDG_SESSION_ID': data['session'], 'FROST_HYPRLAND_TOKEN': data['token'],
+                'FROST_HYPRLAND_GPU': data['selected']}
+    return data['selected'] if all(process_env.get(k) == v for k, v in expected.items()) else None
+
+
+def hyprland_mode():
+    try:
+        data = owned_json(Path('/run/user/1000/frost-hyprland/session.json'), 1000)
+        pid = data.get('pid')
+        if type(pid) is not int or pid < 2:
+            return None
+        proc = Path('/proc') / str(pid)
+        if proc.stat().st_uid != 1000 or (proc/'exe').resolve() != Path('/usr/bin/Hyprland'):
+            return None
+        process_env = dict(part.split('=', 1) for part in (proc/'environ').read_bytes().decode().split('\0') if '=' in part)
+        if not data.get('session') or process_env.get('XDG_SESSION_ID') != data['session']:
+            return None
+        result = subprocess.run(['/usr/bin/loginctl', 'show-session', data['session'],
+                                 '-p', 'User', '-p', 'Active', '-p', 'Type', '-p', 'Desktop'],
+                                capture_output=True, text=True, check=True, timeout=3)
+        session = dict(line.split('=', 1) for line in result.stdout.splitlines() if '=' in line)
+        return verified_hyprland_mode(data, process_env, session)
+    except (OSError, ValueError, AttributeError, subprocess.SubprocessError):
+        return None
+
+
+def main():
+    spec = importlib.util.spec_from_file_location('frost_power', Path(__file__).with_name('frost_power.py'))
+    power = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(power)
+    gpu = Path('/sys/bus/pci/devices/0000:03:00.0')
+    if (gpu / 'vendor').read_text().strip() != '0x1002' or (gpu / 'device').read_text().strip() != '0x73df':
+        raise RuntimeError('The expected RX 6800M is unavailable')
+    time.sleep(.25)
+    source = power.power_source()
+    mode = hyprland_mode() or requested_mode()
+    selected = policy(source['useRX'], mode)
+    control = gpu / 'power/control'
+    if control.read_text().strip() != selected:
+        control.write_text(selected + '\n')
+    print('RX runtime policy: ' + selected + '; source: ' + source['source'] + '; mode: ' + mode)
+
+
+if __name__ == '__main__':
+    main()

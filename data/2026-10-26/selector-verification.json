@@ -1,0 +1,38 @@
+{
+  "method": "Same AsusPower.setProfile path used by the capsule, invoked through its existing IPC; no mouse-click claim",
+  "results": [
+    {
+      "preset": "performance",
+      "profile": "performance",
+      "cpuLimitW": null,
+      "boostEnabled": true,
+      "desktop": "igpu",
+      "nextMode": "auto",
+      "rxRuntime": "suspended",
+      "tuningReady": true,
+      "refreshHz": 300.0
+    },
+    {
+      "preset": "eco",
+      "profile": "quiet",
+      "cpuLimitW": 20,
+      "boostEnabled": false,
+      "desktop": "igpu",
+      "nextMode": "eco",
+      "rxRuntime": "suspended",
+      "tuningReady": true,
+      "refreshHz": 60.0
+    },
+    {
+      "preset": "balanced",
+      "profile": "balanced",
+      "cpuLimitW": 38,
+      "boostEnabled": true,
+      "desktop": "igpu",
+      "nextMode": "igpu",
+      "rxRuntime": "suspended",
+      "tuningReady": true,
+      "refreshHz": 300.0
+    }
+  ]
+}

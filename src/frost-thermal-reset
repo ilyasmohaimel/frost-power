@@ -1,0 +1,28 @@
+#!/usr/bin/python3
+"""Disable Frost tuning and restore only its owned limits and Performance fans."""
+import importlib.util,json,os,re,subprocess
+from pathlib import Path
+if os.geteuid()!=0:raise SystemExit('Run with sudo')
+try:owned=json.loads(Path('/run/frost-thermal-tuning/state.json').read_text()).get('profilePower',{})
+except (OSError,ValueError):owned={}
+subprocess.run(['systemctl','disable','--now','frost-thermal-tuning.service'],check=True)
+config=json.loads(Path('/etc/frost-thermal-tuning.json').read_text())
+adj='/usr/local/lib/frost-thermal/ryzenadj'
+info=subprocess.check_output([adj,'--info'],text=True)
+limit=float(re.search(r'\| THM LIMIT CORE\s*\|\s*([\d.]+)',info)[1])
+args=[adj,'--set-coall=0']
+if abs(limit-90)<.5:args+=['--tctl-temp=95']
+profile=Path('/sys/class/platform-profile/platform-profile-0/profile').read_text().strip()
+apu=float(re.search(r'\| PPT LIMIT APU\s*\|\s*([\d.]+)',info)[1])
+target=owned.get('target',{}).get('apu-slow-limit')
+if target is not None and abs(apu-target)<.5:
+ original=owned['original']['apu-slow-limit'] if owned.get('profile')==profile else config['nativePowerLimits'][profile]['apu-slow-limit']
+ args+=['--apu-slow-limit='+str(round(original*1000))]
+subprocess.run(args,check=True)
+boost=owned.get('boost',{});path=Path('/sys/devices/system/cpu/cpufreq/boost')
+if boost and int(path.read_text())==boost['target']:path.write_text(str(boost['original'])+'\n')
+spec=importlib.util.spec_from_file_location('rx',Path('/usr/local/libexec/frost_rx_efficiency.py'));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+rx=m.RxEfficiency(config['gpuOffsetMv'],owned=True);rx.reset()
+subprocess.run(['/var/lib/frost-thermal-recovery/20261025-before-thermal-tuning/restore-test-fans'],check=True)
+print('Tuning disabled; CPU curve, owned power/thermal limits, RX offset and Performance fans restored.')
+print('The Overdrive interface remains available; it applies no voltage offset by itself.')

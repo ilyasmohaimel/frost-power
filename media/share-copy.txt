@@ -1,0 +1,1 @@
+Frost Power: 38 W Balanced and 20 W Eco presets, measured on my G513QY. Source, rollback, the actual Battery controls and the limits of the measurements are all included.

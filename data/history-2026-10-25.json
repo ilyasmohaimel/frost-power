@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-25",
+  "hardware": "ASUS ROG G513QY / 5900HX / RX 6800M",
+  "cpuMatrix60s": {
+    "stock": {
+      "score": 9965.83,
+      "socketW": 72.64,
+      "meanCpuC": 94.6,
+      "maxCpuC": 95.38
+    },
+    "tuned": {
+      "score": 9708.75,
+      "socketW": 61.27,
+      "meanCpuC": 89.81,
+      "maxCpuC": 90.25
+    },
+    "lossPercent": 2.58
+  },
+  "rxBlur": {
+    "stock": {
+      "fps": 7884,
+      "gpuW": 81.32,
+      "maxJunctionC": 101,
+      "seconds": 60
+    },
+    "tuned": {
+      "fps": 7768,
+      "gpuW": 76.95,
+      "maxJunctionC": 101,
+      "seconds": 120
+    },
+    "matched": false,
+    "limitation": "Run lengths and cooling curves differed; directional evidence only."
+  },
+  "earlierQuiet": {
+    "capW": 30,
+    "lossVsOriginalQuietPercent": 18.47,
+    "superseded": true
+  },
+  "earlierLifecycle": {
+    "independentRecoveryBootVerified": true,
+    "normalRebootVerified": true,
+    "hibernateResumeVerified": true
+  },
+  "newPresetLifecycle": {
+    "normalRebootVerified": false,
+    "hibernateResumeVerified": false,
+    "batteryRuntimeMeasured": false
+  }
+}

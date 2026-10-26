@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+"""Apply the validated Performance cooling curves and enable thermal tuning."""
+import json,os,subprocess,time
+from pathlib import Path
+if os.geteuid()!=0:raise SystemExit('Run with sudo')
+unit='frost-thermal-tuning.service'
+subprocess.run(['systemctl','stop',unit],check=True)
+curves={'cpu':'56c:43,60c:64,65c:128,69c:191,73c:230,77c:255,80c:255,90c:255','gpu':'45c:0%,50c:15%,55c:40%,60c:75%,65c:100%,70c:100%,80c:100%,90c:100%'}
+for fan,data in curves.items():subprocess.run(['/usr/bin/asusctl','fan-curve','--mod-profile','Performance','--fan',fan,'--data',data],capture_output=True,check=True)
+subprocess.run(['/usr/bin/asusctl','fan-curve','--mod-profile','Performance','--enable-fan-curves','true'],capture_output=True,check=True)
+time.sleep(12)
+subprocess.run(['systemctl','enable','--now',unit],check=True)
+start=time.monotonic()
+while time.monotonic()-start<45:
+ try:
+  state=json.loads(Path('/run/frost-thermal-tuning/state.json').read_text())
+  if not state.get('reset') and state.get('pending') is False and state.get('cpuTargetC',105)<=90:
+   time.sleep(6)  # Let the policy-held RX pass its five-second settling gate.
+   print('Validated cooling curves and automatic tuning enabled.');break
+ except (OSError,ValueError):pass
+ time.sleep(1)
+else:raise SystemExit('Settings have not settled; inspect systemctl status frost-thermal-tuning.service')

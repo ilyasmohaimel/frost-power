@@ -1,0 +1,134 @@
+#!/usr/bin/python3
+"""Maintain the validated CPU settings and an offset on a policy-held RX."""
+import json,re,signal,subprocess,sys,time
+from pathlib import Path
+ADJ='/usr/local/lib/frost-thermal/ryzenadj'
+CONFIG=Path('/etc/frost-thermal-tuning.json')
+STATE=Path('/run/frost-thermal-tuning/state.json')
+PROFILE=Path('/sys/class/platform-profile/platform-profile-0/profile')
+BOOT_ID=Path('/proc/sys/kernel/random/boot_id').read_text().strip()
+STOP=False
+RX=None
+POWER=None
+
+def profile():return PROFILE.read_text().strip()
+def run(*args):
+ result=subprocess.run([ADJ,*args],capture_output=True,text=True,timeout=12)
+ if result.returncode:raise RuntimeError(result.stdout+result.stderr)
+ return result.stdout
+
+def info():
+ text=run('--info')
+ if 'CPU Family: Cezanne' not in text:raise RuntimeError('Unexpected CPU family')
+ m=re.search(r'\| THM LIMIT CORE\s*\|\s*([\d.]+)',text)
+ if not m:raise RuntimeError('CPU thermal limit unavailable')
+ return float(m[1])
+
+def validate(config):
+ if 'G513QY' not in Path('/sys/class/dmi/id/product_name').read_text():raise RuntimeError('This configuration is specific to G513QY')
+ if 'AMD Ryzen 9 5900HX' not in Path('/proc/cpuinfo').read_text():raise RuntimeError('Unexpected CPU model')
+ if config.get('schemaVersion')!=2 or config.get('quietCpuW') not in (15,18,20) or config.get('balancedCpuW') not in (30,35,38,40) or config.get('quietDisableBoost') is not True:raise RuntimeError('Untested CPU profile settings')
+ if config.get('nativePowerLimits')!={p:{'apu-slow-limit':v} for p,v in [('quiet',50),('balanced',74),('performance',90)]}:raise RuntimeError('Unexpected firmware power baselines')
+ if config['curveOptimizer']!=-5 or config['maxCpuC']!=90 or config.get('gpuOffsetMv') not in (-20,-30):raise RuntimeError('Only the tested settings are allowed')
+
+def previous():
+ try:
+  data=json.loads(STATE.read_text())
+  return data if data.get('bootId')==BOOT_ID and not data.get('reset') else {}
+ except (OSError,ValueError):return {}
+
+def save(data):
+ STATE.parent.mkdir(parents=True,exist_ok=True)
+ if RX is not None:data['gpu']=RX.state()
+ if POWER is not None:data['profilePower']=POWER.state()
+ temporary=STATE.with_suffix('.tmp');temporary.write_text(json.dumps(data,indent=2)+'\n');temporary.replace(STATE)
+
+def apply(config):
+ current=profile()
+ if POWER is not None:
+  changed=POWER.reconcile(current)
+  # Persist ownership before the firmware settling delay, including Eco boost.
+  checkpoint=previous();checkpoint.update(bootId=BOOT_ID,pending=True);save(checkpoint)
+  if changed:time.sleep(8)
+ if profile()!=current:return False
+ limit=info();target=min(limit,config['maxCpuC'])
+ old=previous();original=limit
+ if abs(limit-old.get('cpuTargetC',-1))<.5:original=old['originalCpuTargetC']
+ state={'bootId':BOOT_ID,'profile':current,'originalCpuTargetC':original,'curveOptimizerRequested':config['curveOptimizer'],'curveReadbackAvailable':False,'cpuTargetC':target,'updatedUnix':time.time(),'gpu':'unchanged','pending':True}
+ save(state)
+ run('--set-coall='+str(0x100000+config['curveOptimizer']),'--tctl-temp='+str(int(target)))
+ time.sleep(3)
+ if profile()!=current:return False
+ actual=info()
+ if actual>target+.5:raise RuntimeError('CPU thermal target readback did not match')
+ state.update(cpuTargetC=actual,pending=False);save(state)
+ print(f'Applied CPU curve -5 and {actual:g}C target for {current}',flush=True)
+ return True
+
+def reset(config):
+ current=profile();old=previous();baseline=old.get('originalCpuTargetC')
+ try:
+  run('--set-coall=0')
+  limit=info()
+  # Do not replace a lower target subsequently selected by another tool.
+  if baseline is not None and abs(limit-old.get('cpuTargetC',-1))<.5:
+   if not 60<=baseline<=105:raise RuntimeError('Invalid recorded thermal baseline')
+   run('--tctl-temp='+str(int(baseline)))
+ finally:
+  try:
+   if POWER is not None:POWER.reset(current)
+  finally:
+   if RX is not None:RX.reset()
+ save({'bootId':BOOT_ID,'reset':True,'profile':current,'curveOptimizerRequested':0,'cpuTargetC':info(),'updatedUnix':time.time(),'gpu':'unchanged'})
+ print('Restored CPU curve to zero and released the owned thermal target',flush=True)
+
+def stop(*_):
+ global STOP
+ STOP=True
+
+def main():
+ global RX,POWER
+ config=json.loads(CONFIG.read_text());validate(config)
+ action=sys.argv[1] if len(sys.argv)>1 else 'status'
+ if action=='status':
+  print(STATE.read_text() if STATE.exists() else 'No runtime state');return
+ if action not in ('daemon','reset'):raise SystemExit('Use status, reset or daemon')
+ import importlib.util
+ spec=importlib.util.spec_from_file_location('frost_rx_efficiency',Path(__file__).with_name('frost_rx_efficiency.py'))
+ module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+ gpu=Path('/sys/bus/pci/devices/0000:03:00.0')
+ if (gpu/'vendor').read_text().strip()!='0x1002' or (gpu/'device').read_text().strip()!='0x73df':raise RuntimeError('Unexpected discrete GPU')
+ old=previous();RX=module.RxEfficiency(config['gpuOffsetMv'],owned=bool(old.get('gpu',{}).get('owned')))
+ spec=importlib.util.spec_from_file_location('frost_cpu_power',Path(__file__).with_name('frost_cpu_power.py'))
+ power_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(power_module)
+ POWER=power_module.ProfilePower(run,{'quiet':config['quietCpuW'],'balanced':config['balancedCpuW']},config['nativePowerLimits'],old.get('profilePower',old.get('quietPower')))
+ if action=='reset':reset(config);return
+ if action!='daemon':raise SystemExit('Use status, reset or daemon')
+ signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
+ last_profile=None;last_gap=None;next_check=0
+ try:
+  while not STOP:
+   current=profile();gap=time.clock_gettime(time.CLOCK_BOOTTIME)-time.monotonic()
+   resumed=last_gap is not None and gap-last_gap>2
+   if current!=last_profile or resumed:
+    time.sleep(8)
+    if STOP:break
+    if not apply(config):
+     last_profile=None;continue
+    last_profile=profile();RX.rearm();next_check=time.monotonic()+15
+   if time.monotonic()>=next_check:
+    old=previous()
+    if info()>old.get('cpuTargetC',config['maxCpuC'])+.5 or POWER.drifted(current):
+     if not apply(config):
+      last_profile=None;continue
+    next_check=time.monotonic()+15
+   try:
+    if RX.tick():
+     state=previous();state['updatedUnix']=time.time();save(state)
+     print('RX efficiency: '+RX.status,flush=True)
+   except (OSError,RuntimeError) as error:
+    RX.blocked=True;RX.status=str(error);state=previous();save(state)
+    print('RX efficiency deferred: '+str(error),flush=True)
+   last_gap=gap;time.sleep(1)
+ finally:reset(config)
+if __name__=='__main__':main()

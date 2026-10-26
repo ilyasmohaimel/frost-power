@@ -1,0 +1,20 @@
+{
+  "curveOptimizer": -5,
+  "maxCpuC": 90,
+  "gpuOffsetMv": -30,
+  "quietCpuW": 20,
+  "nativePowerLimits": {
+    "quiet": {
+      "apu-slow-limit": 50
+    },
+    "balanced": {
+      "apu-slow-limit": 74
+    },
+    "performance": {
+      "apu-slow-limit": 90
+    }
+  },
+  "schemaVersion": 2,
+  "balancedCpuW": 38,
+  "quietDisableBoost": true
+}

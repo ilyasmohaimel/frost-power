@@ -1,0 +1,125 @@
+[
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 60.18546975599929,
+    "maxCpuC": 90.375,
+    "meanCpuC": 89.76375,
+    "rxSuspendedEverySample": true,
+    "name": "installed-performance-matrix",
+    "score": 10032.27,
+    "socketW": 73.06296615600586,
+    "limits": {
+      "limitC": [
+        90.0
+      ],
+      "apuLimitW": [
+        90.0
+      ]
+    }
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 25.044233199998416,
+    "maxCpuC": 90.5,
+    "meanCpuC": 90.177,
+    "rxSuspendedEverySample": false,
+    "name": "installed-performance-igpu",
+    "rxReturnedToSleep": true,
+    "fps": [
+      2560.0,
+      2114.0,
+      1991.0,
+      729.0
+    ]
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 120.15537697499894,
+    "maxCpuC": 86.125,
+    "meanCpuC": 72.74248747913188,
+    "rxSuspendedEverySample": true,
+    "name": "installed-balanced-all"
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 60.171873348999725,
+    "maxCpuC": 72.25,
+    "meanCpuC": 70.79291666666667,
+    "rxSuspendedEverySample": true,
+    "name": "installed-balanced-matrix",
+    "score": 8122.26,
+    "socketW": 38.010159492492676,
+    "limits": {
+      "limitC": [
+        90.0
+      ],
+      "apuLimitW": [
+        38.0
+      ]
+    }
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 25.049682690998452,
+    "maxCpuC": 90.25,
+    "meanCpuC": 87.02,
+    "rxSuspendedEverySample": false,
+    "name": "installed-balanced-igpu",
+    "rxReturnedToSleep": true,
+    "fps": [
+      2730.0,
+      2255.0,
+      2146.0,
+      839.0
+    ]
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 120.1935406850007,
+    "maxCpuC": 64.125,
+    "meanCpuC": 58.84265442404007,
+    "rxSuspendedEverySample": true,
+    "name": "installed-eco-all"
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 60.23438588299905,
+    "maxCpuC": 58.375,
+    "meanCpuC": 57.468333333333334,
+    "rxSuspendedEverySample": true,
+    "name": "installed-eco-matrix",
+    "score": 5696.66,
+    "socketW": 20.01965730190277,
+    "limits": {
+      "limitC": [
+        90.0
+      ],
+      "apuLimitW": [
+        20.0
+      ]
+    }
+  },
+  {
+    "exit": 0,
+    "stop": null,
+    "elapsed": 25.064326285999414,
+    "maxCpuC": 66.75,
+    "meanCpuC": 65.278,
+    "rxSuspendedEverySample": false,
+    "name": "installed-eco-igpu",
+    "rxReturnedToSleep": true,
+    "fps": [
+      3806.0,
+      3367.0,
+      3181.0,
+      1051.0
+    ]
+  }
+]

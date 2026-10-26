@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+node_modules
+.hyperframes/
+media/work/
+media/work-*/
+media/*.render.mp4
+*.blend1
+*.log
+.DS_Store

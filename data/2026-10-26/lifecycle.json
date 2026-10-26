@@ -1,0 +1,11 @@
+{
+  "automaticRestartPreservedOwnership": true,
+  "fullResetPassed": true,
+  "reEnablePassed": true,
+  "resetReadback": {
+    "THM LIMIT CORE": 93.0,
+    "PPT LIMIT APU": 50.0
+  },
+  "resetBoost": 1,
+  "resetUnitEnabled": "disabled"
+}
