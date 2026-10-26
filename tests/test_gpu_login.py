@@ -22,7 +22,14 @@ class LoginGPU(unittest.TestCase):
     def setUp(self):
         # These are policy fixtures, not hardware tests. Never read a runner's GPU.
         def local_spec(name,path,*args,**kwargs):
-            if name == 'frost_power': path=ROOT/'reference/g513qy/frost_power.py'
+            if name == 'frost_power':
+                # The launcher loads a new module. Give that module the same
+                # synthetic charger as the policy fixture, never the host's AC.
+                class FixturePowerLoader(importlib.machinery.SourceFileLoader):
+                    def exec_module(self,module):
+                        super().exec_module(module)
+                        module.power_source=lambda: {'source':'barrel','useRX':True}
+                return importlib.util.spec_from_loader(name,FixturePowerLoader(name,str(ROOT/'reference/g513qy/frost_power.py')))
             if name == 'hypr_gpu': path=ROOT/'integration/hyprland/gpu.py'
             return REAL_SPEC(name,path,*args,**kwargs)
         self.patches=[patch.object(importlib.util,'spec_from_file_location',side_effect=local_spec),
