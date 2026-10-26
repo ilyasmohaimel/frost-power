@@ -15,7 +15,7 @@
 | 0–4 | Newer studio model, measured screen | Less heat. Same laptop. Slow camera push; 38 W settles early. |
 | 4–11 | Full-screen aligned comparison | Performance 73.06 W; Balanced 38.01 W; Eco 20.02 W. Throughput and temperature settle on matched rows. |
 | 11–15 | Existing internal cutaway illustration | CPU curve −5; RX −30 mV; iGPU stock. Keep the footnote visible. |
-| 15–20 | Actual isolated Battery menu | Pick it in Battery. CPU/display now. Desktop GPU at next login. Frost Power lockup. |
+| 15–20 | Full desktop screenshot, then a continuous zoom toward the lower-left Battery menu | Hold the desktop briefly, push to 2.15×, then hold the mode selector with the next-login note on the right. |
 
 Music cue guidance: use an edited excerpt of Machina already credited in Frost GPU. Prefer natural reading time over rigid beat sync; the comparison needs a long settled hold. No audio-reactive visual treatment is needed for measured charts.
 

@@ -1,7 +1,9 @@
 <p align="center">
-  <a href="media/frost-power.mp4"><img src="assets/frost-power-preview.webp" alt="Frost Power: the G513QY studio model, measured Performance, Balanced and Eco presets, and the Battery menu. Click for the film with sound." width="100%"></a>
+  <a href="media/frost-power.mp4"><img src="assets/frost-power-preview-lossless.webp" alt="Frost Power: the G513QY studio model, measured Performance, Balanced and Eco presets, and the Battery menu. Click for the film with sound." width="100%"></a>
 </p>
-<p align="center"><a href="media/frost-power.mp4">Watch the 20-second film with sound</a> · <a href="docs/results.md">Measurements</a> · <a href="docs/recovery.md">Recovery</a></p>
+<p align="center"><a href="media/frost-power.mp4">Watch the 20-second film with sound</a> · <a href="https://raw.githubusercontent.com/ilyasmohaimel/frost-power/main/media/frost-power.mp4">1080p/60 FPS MP4</a> · <a href="docs/results.md">Measurements</a> · <a href="docs/recovery.md">Recovery</a></p>
+
+The autoplay preview is a smaller lossless animation. The MP4 has the full 1080p/60 FPS picture and sound.
 
 # Frost Power
 

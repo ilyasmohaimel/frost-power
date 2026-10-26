@@ -18,10 +18,12 @@ The reference charger/GPU policy and G513QY model work come from [Frost GPU](htt
 
 ## Film and artwork
 
-The film uses the existing G513QY model and architectural studio, an internal cutaway illustration, original charts and a direct isolated capture of the Caelestia Battery menu. Personal photographs were modeling references, not film shots. Raw desktop conversations and reference downloads are not included.
+The film uses the existing G513QY model and architectural studio, an internal cutaway illustration, original charts and a direct isolated full-desktop capture with the Caelestia Battery menu open. Personal photographs were modeling references, not film shots. Raw desktop conversations and reference downloads are not included.
 
 ASUS reference imagery supplies keyboard legends and deck materials in the original model. ASUS retains its image copyrights and trademarks. ROG, Ryzen and Radeon names identify the hardware; this is an independent project. The cutaway is an illustration, not an engineering scan or proof of physical chip placement.
 
 Barlow and JetBrains Mono retain their SIL Open Font Licenses, included beside the local fonts. The soundtrack is an edited excerpt of [Machina by Scott Buckley](https://www.scottbuckley.com.au/library/machina/), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Keep that attribution when sharing the film.
 
 The composition uses [HyperFrames](https://github.com/heygen-com/hyperframes) and GSAP, with their own package licenses. The [/brag workflow](https://github.com/latent-spaces/brag) supplied planning and validation guidance. No tooling license is replaced by this repository's license.
+
+The desktop screenshot includes the installed wallpaper as part of the running desktop. Its artwork retains its creator's rights; it is not original project artwork. No separate wallpaper source file is distributed here.

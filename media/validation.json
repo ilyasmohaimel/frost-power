@@ -17,15 +17,39 @@
     "durationSeconds": 20,
     "audio": "AAC stereo 48000 Hz",
     "decodeCheck": "passed",
-    "sha256": "67c10ba8e3a16a0374eaf773022cff537a2085b6354dbdc0b98d2fc3fb3526a6"
+    "sha256": "693c16e6f4ecf684d08b3dd3a851634cd8ca095ce732f74c685d3e6eac373d14",
+    "bytes": 21648560
   },
   "readmePreview": {
-    "width": 960,
-    "height": 540,
-    "frames": 360,
+    "encoding": "lossless WebP, explicit BGRA input",
+    "width": 800,
+    "height": 450,
+    "fps": 24,
+    "framesCompared": 480,
+    "maximumRgbError": 0,
     "durationMs": 19999,
-    "animated": true
+    "encodedFrames": 419,
+    "bytes": 37569120,
+    "comparison": "Every displayed preview frame equals its scaled MP4 reference pixels."
   },
   "relativeDocumentationLinks": "passed",
-  "hardwareTestBoundary": "Film validation does not repeat the measured hardware workloads."
+  "hardwareTestBoundary": "Film validation does not repeat the measured hardware workloads.",
+  "desktopMenuShot": {
+    "source": "Intact 1920x1080 desktop screenshot with the actual hovered Battery popup on an isolated workspace",
+    "camera": "Same surface, scale 1 to 2.15, x 0 to 12.4, y 0 to -1299.1",
+    "moveSeconds": [
+      15.8,
+      18.1
+    ],
+    "finalHoldSeconds": [
+      18.1,
+      20
+    ],
+    "easing": "Fifth-order smoothstep; continuous fractional transforms"
+  },
+  "previousRemoteIntegrity": {
+    "mp4MatchedLocal": true,
+    "previewMatchedLocal": true,
+    "finding": "The previous lossy animated preview had visible block damage; the MP4 was intact."
+  }
 }

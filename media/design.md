@@ -19,3 +19,5 @@ Layout plan:
 Review: avoid a generic specification-card grid or a decorative neon motherboard. The existing physical model supplies the visual character. Charts encode measured quantities; small notes identify the experiment. The internal cutaway is labeled as an illustration. No private desktop or personal photograph is used as a film shot.
 
 Motion reference: the revised Between windows film from the Install Hyprland and Caelestia session. Use 60 FPS, continuous fractional transforms and fifth-order easing with settled holds. The older rounded zoompan path is deliberately excluded.
+
+The final shot now begins with an intact 1920×1080 desktop screenshot, captured while hovering the Battery icon on an isolated workspace. The camera holds the whole desktop, then moves the same surface to a 2.15× view of the lower-left mode menu. The final pose holds with copy on the right. There is no separate menu card or replacement crop.
